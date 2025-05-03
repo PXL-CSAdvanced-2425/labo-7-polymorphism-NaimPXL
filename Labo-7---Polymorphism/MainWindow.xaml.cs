@@ -120,9 +120,20 @@ public partial class MainWindow : Window
         UpdateListBox();
 	}
 
+    private bool CheckIfNameIsInInputBox(Machine machine)
+    {
+        return machine.Name.Contains(inputTextBox.Text);
+    }
+
 	private void FilterButton_Click(object sender, RoutedEventArgs e)
     {
-        throw new NotImplementedException();
+        Predicate<Machine> predicate = CheckIfNameIsInInputBox;
+
+        itemsListBox.Items.Clear();
+        foreach (Machine machine in _datastore.FilterItems(predicate))
+        {
+            itemsListBox.Items.Add(machine);
+        }
     }
 
     private void itemsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
